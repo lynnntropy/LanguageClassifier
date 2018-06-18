@@ -1,12 +1,24 @@
-from japanese_wordlist_builder import JapaneseWordListBuilder
-from korean_wordlist_builder import KoreanWordListBuilder
+from classifier_manager import ClassifierManager
+from classifier_wrapper import ClassifierWrapper
 
-japanese_wordlist_builder = JapaneseWordListBuilder()
-japanese_wordlist = japanese_wordlist_builder.build()
+classifier_manager = ClassifierManager()
 
-# print(japanese_wordlist)
+if classifier_manager.persisted_classifier_exists():
 
-korean_wordlist_builder = KoreanWordListBuilder()
-korean_wordlist = korean_wordlist_builder.build()
+    print('An existing classifier is available. Load it (y/n)?')
+    answer = input('> ')
 
-# print(korean_wordlist)
+    if answer == 'y':
+        classifier = classifier_manager.get_persisted_classifier()
+    else: 
+        classifier = classifier_manager.build_new_classifier()
+else:
+    classifier = classifier_manager.build_new_classifier()
+
+classifier_wrapper = ClassifierWrapper(classifier)
+
+print('Enter a word in romanized form to guess the language.')
+
+while True:
+    word = input('> ')
+    print(classifier_wrapper.classify(word))
