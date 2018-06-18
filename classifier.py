@@ -17,8 +17,9 @@ else:
 
 classifier_wrapper = ClassifierWrapper(classifier)
 
-print('Enter a word in romanized form to guess the language.')
+print('\nEnter a word in romanized form to guess the language.\n')
 
 while True:
     word = input('> ')
     print(classifier_wrapper.classify(word))
+    print('\n')
